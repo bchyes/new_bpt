@@ -32,7 +32,7 @@ struct std::hash<sjtu::pair<sjtu::pair<size_t, int>, int>> {
     }
 };
 namespace sjtu {
-    template<class Key, class T/*, class Hash=std::hash<Key>*/, int M = 40, class Compare= std::less<Key> >
+    template<class Key, class T/*, class Hash=std::hash<Key>*/, int M = 4, class Compare= std::less<Key> >
     class bpt {
     private:
         typedef pair<Key, T> value_type;
@@ -956,6 +956,7 @@ namespace sjtu {
                         int mid = (l + r) >> 1;
                         if (!cpy(value.first, tmp.value[mid]) && !cpy(tmp.value[mid], value.first)) {
                             file.close();
+                            file_leaves.close();//!
                             throw int();
                         }
                         if (cpy(value.first, tmp.value[mid])) r = mid - 1;
@@ -1263,9 +1264,9 @@ namespace sjtu {
             }
             while (1) {
                 for (int i = 0; i < now_l.length; i++) {
-                    if (now_l.value[now_l.length - 1].first >= l && now_l.value[now_l.length - 1].first <= r) {
+                    if (now_l.value[i].first >= l && now_l.value[i].first <= r) {
                         vec_tmp.push_back(now_l.value[i]);
-                    } else if (now_l.value[now_l.length - 1].first > r) {
+                    } else if (now_l.value[i].first > r) {
                         file_leaves.close();
                         return vec_tmp;
                     }
@@ -1301,9 +1302,9 @@ namespace sjtu {
             }
             while (1) {
                 for (int i = 0; i < now_l.length; i++) {
-                    if (!(now_l.value[now_l.length - 1].first < l) && !(r < now_l.value[now_l.length - 1].first)) {
+                    if (!(now_l.value[i].first < l) && !(r < now_l.value[i].first)) {
                         vec_tmp.push_back(now_l.value[i].second);
-                    } else if (r < now_l.value[now_l.length - 1].first) {
+                    } else if (r < now_l.value[i].first) {
                         file_leaves.close();
                         return vec_tmp;
                     }
