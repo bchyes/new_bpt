@@ -32,7 +32,7 @@ struct std::hash<sjtu::pair<sjtu::pair<size_t, int>, int>> {
     }
 };
 namespace sjtu {
-    template<class Key, class T/*, class Hash=std::hash<Key>*/, int M = 300, int N = 400, class Compare= std::less<Key> >
+    template<class Key, class T/*, class Hash=std::hash<Key>*/, int M = 101, int N = 106, class Compare= std::less<Key> >
     class bpt {
     private:
         typedef pair<Key, T> value_type;
