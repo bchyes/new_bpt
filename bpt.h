@@ -153,7 +153,7 @@ namespace sjtu {
                 int l = 0, r = node_back.length - 2;
                 while (l <= r) {
                     int mid = (l + r) >> 1;
-                    if (cpy(new_tmp.value[0], node_back.value[mid])) r = mid - 1;
+                    if (cpy(new_tmp_l.value[0].first, node_back.value[mid])) r = mid - 1;
                     else l = mid + 1;
                 }
                 for (int j = node_back.length - 1; j >= l; j--) {
