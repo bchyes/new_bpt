@@ -47,7 +47,7 @@ namespace sjtu {
         };
         struct node_leaves {
             int length = 0;
-            value_type value[M];
+            value_type value[N];
             long long pre = -1;
             long long next = -1;
             long long address = -1;
