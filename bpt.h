@@ -32,7 +32,7 @@ struct std::hash<sjtu::pair<sjtu::pair<size_t, int>, int>> {
     }
 };
 namespace sjtu {
-    template<class Key, class T/*, class Hash=std::hash<Key>*/, int M = 100, class Compare= std::less<Key> >
+    template<class Key, class T/*, class Hash=std::hash<Key>*/, int M = 100, int N = 20, class Compare= std::less<Key> >
     class bpt {
     private:
         typedef pair<Key, T> value_type;
@@ -86,8 +86,8 @@ namespace sjtu {
 
         void split(node &tmp, node &now) {
             value_type v_up;
-            //tmp.length = M >> 1;
-            tmp_l.length = M >> 1;
+            //tmp.length = N >> 1;
+            tmp_l.length = N >> 1;
             //!
             //file.seekp(tmp.address);
             //file.write(reinterpret_cast<char *>(&tmp), sizeof(node));
@@ -130,12 +130,12 @@ namespace sjtu {
             file_leaves.seekp(tmp_l.address);
             file_leaves.write(reinterpret_cast<char *>(&tmp_l), sizeof(node_leaves));
             //!
-            for (int i = 0; i < M - tmp_l.length; i++)//将原来tmp中的值拿一半到new_tmp中
+            for (int i = 0; i < N - tmp_l.length; i++)//将原来tmp中的值拿一半到new_tmp中
                 //new_tmp.value[i] = tmp.value[i + tmp.length],
-                        new_tmp_l.value[i] = tmp_l.value[i + tmp_l.length];
-            new_tmp_l.length = M - tmp_l.length;
+                new_tmp_l.value[i] = tmp_l.value[i + tmp_l.length];
+            new_tmp_l.length = N - tmp_l.length;
             //!
-            //new_tmp.length = M - tmp.length;
+            //new_tmp.length = N - tmp.length;
             new_tmp.is_leave = 1;
             file.seekp(new_tmp.address);
             file.write(reinterpret_cast<char *>(&new_tmp), sizeof(node));
@@ -290,14 +290,14 @@ namespace sjtu {
                 file_leaves.read(reinterpret_cast<char *>(&tmp_l), sizeof(node_leaves));
                 //file.seekg(tmp_l.key_address);
                 //file.read(reinterpret_cast<char *>(&tmp), sizeof(node));
-                if (tmp_l.length > (M) / 2) {//如果左边的节点可以移动一个节点过来
+                if (tmp_l.length > (N) / 2) {//如果左边的节点可以移动一个节点过来
                     now_l.length++;
                     //now.length++;
                     tmp_l.length--;
                     //tmp.length--;
                     for (int k = now_l.length - 1; k >= 0; k--)
                         //now.value[k + 1] = now.value[k],
-                                now_l.value[k + 1] = now_l.value[k];
+                        now_l.value[k + 1] = now_l.value[k];
                     //now.value[0] = tmp.value[tmp.length];
                     now_l.value[0] = tmp_l.value[tmp_l.length];
                     //file.seekp(tmp.address);
@@ -348,7 +348,7 @@ namespace sjtu {
                 file_leaves.read(reinterpret_cast<char *>(&tmp_l), sizeof(node_leaves));
                 //file.seekg(tmp_l.key_address);
                 //file.read(reinterpret_cast<char *>(&tmp), sizeof(node));
-                if (tmp_l.length > (M) / 2) {
+                if (tmp_l.length > (N) / 2) {
                     //now.length++;
                     now_l.length++;
                     //tmp.length--;
@@ -358,7 +358,7 @@ namespace sjtu {
                     value_type up = tmp_l.value[0];
                     for (int k = 0; k <= tmp_l.length - 1; k++)
                         //tmp.value[k] = tmp.value[k + 1],
-                                tmp_l.value[k] = tmp_l.value[k + 1];
+                        tmp_l.value[k] = tmp_l.value[k + 1];
                     //file.seekp(tmp.address);
                     //file.write(reinterpret_cast<char *>(&tmp), sizeof(node));
                     //file.seekp(now.address);
@@ -909,7 +909,7 @@ namespace sjtu {
                 root.son[0] = tmp.address;
                 tmp.father = 0;
                 tmp.is_leave = 1;
-                 root.length++;
+                root.length++;
                 //tmp.length++;
                 //!
                 //tmp.value[0] = value.first;
@@ -980,7 +980,7 @@ namespace sjtu {
                     //!
                     //file.seekp(tmp.address);
                     //file.write(reinterpret_cast<char *>(&tmp), sizeof(node));
-                    if (tmp_l.length == M) {//如果叶节点个数过多则需要分裂
+                    if (tmp_l.length == N) {//如果叶节点个数过多则需要分裂
                         split(tmp, now);
                     }
                     break;
@@ -1150,7 +1150,7 @@ namespace sjtu {
                         }
                     }
                 }
-                if (now_l.length <= (M - 2) / 2) {
+                if (now_l.length <= (N - 2) / 2) {
                     merge(now, v_up);
                 }
                 file.close();
