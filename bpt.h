@@ -32,7 +32,7 @@ struct std::hash<sjtu::pair<sjtu::pair<size_t, int>, int>> {
     }
 };
 namespace sjtu {
-    template<class Key, class T/*, class Hash=std::hash<Key>*/, int M = 1000, int N = 1000, class Compare= std::less<Key> >
+    template<class Key, class T/*, class Hash=std::hash<Key>*/, int M = 100, int N = 20, class Compare= std::less<Key> >
     class bpt {
     private:
         typedef pair<Key, T> value_type;
@@ -1200,7 +1200,7 @@ namespace sjtu {
                 //!
                 now_l.value[i].second = v;
                 //hs.insert(now_l.value[i]);
-                file_leaves.seekp(now.leaves_address);
+                file_leaves.seekp(now.leave_address);
                 file_leaves.write(reinterpret_cast<char *>(&now_l), sizeof(node));
                 file_leaves.close();
                 file.close();
@@ -1245,8 +1245,29 @@ namespace sjtu {
         }
 
         sjtu::vector<value_type> traverse_val(const Key &l, const Key &r) {
-            sjtu::vector<value_type> vec_tmp;
+            file.open(file_name);
+            file.read(reinterpret_cast<char *>(&root), sizeof(node));
+            if (!root.length) {
+                file.close();
+                throw int();
+            }
+            now = root;
+            while (!now.is_leave) {
+                int l1 = 0, r1 = now.length - 2;
+                while (l1 <= r1) {
+                    int mid = (l1 + r1) >> 1;
+                    if (cpy(l, now.value[mid])) r1 = mid - 1;
+                    else l1 = mid + 1;
+                }
+                file.seekg(now.son[l1]);
+                file.read(reinterpret_cast<char *>(&now), sizeof(node));
+            }
             file_leaves.open(file_leaves_name);
+            file_leaves.seekg(now.leave_address);
+            file_leaves.read(reinterpret_cast<char *>(&now_l), sizeof(node_leaves));
+            file.close();
+            sjtu::vector<value_type> vec_tmp;
+            /*file_leaves.open(file_leaves_name);
             file_leaves.seekg(0);
             int x;
             file_leaves.read(reinterpret_cast<char *>(&x), sizeof(int));
@@ -1255,7 +1276,7 @@ namespace sjtu {
                 return vec_tmp;
             }
             file_leaves.seekg(x);
-            file_leaves.read(reinterpret_cast<char *>(&now_l), sizeof(node_leaves));
+            file_leaves.read(reinterpret_cast<char *>(&now_l), sizeof(node_leaves));*/
             while (now_l.value[now_l.length - 1].first < l) {
                 if (now_l.next == -1) {
                     file_leaves.close();
@@ -1283,8 +1304,29 @@ namespace sjtu {
         }
 
         sjtu::vector<T> traverse(const Key &l, const Key &r) {
-            sjtu::vector<T> vec_tmp;
+            file.open(file_name);
+            file.read(reinterpret_cast<char *>(&root), sizeof(node));
+            if (!root.length) {
+                file.close();
+                throw int();
+            }
+            now = root;
+            while (!now.is_leave) {
+                int l1 = 0, r1 = now.length - 2;
+                while (l1 <= r1) {
+                    int mid = (l1 + r1) >> 1;
+                    if (cpy(l, now.value[mid])) r1 = mid - 1;
+                    else l1 = mid + 1;
+                }
+                file.seekg(now.son[l1]);
+                file.read(reinterpret_cast<char *>(&now), sizeof(node));
+            }
             file_leaves.open(file_leaves_name);
+            file_leaves.seekg(now.leave_address);
+            file_leaves.read(reinterpret_cast<char *>(&now_l), sizeof(node_leaves));
+            file.close();
+            sjtu::vector<T> vec_tmp;
+            /*file_leaves.open(file_leaves_name);
             file_leaves.seekg(0);
             long long x;
             file_leaves.read(reinterpret_cast<char *>(&x), sizeof(long long));
@@ -1293,7 +1335,7 @@ namespace sjtu {
                 return vec_tmp;
             }
             file_leaves.seekg(x);
-            file_leaves.read(reinterpret_cast<char *>(&now_l), sizeof(node_leaves));
+            file_leaves.read(reinterpret_cast<char *>(&now_l), sizeof(node_leaves));*/
             while (now_l.value[now_l.length - 1].first < l) {
                 if (now_l.next == -1) {
                     file_leaves.close();
