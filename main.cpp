@@ -2,8 +2,8 @@
 #include "bpt.h"
 #include "string.hpp"
 
-sjtu::bpt<sjtu::pair<sjtu::string, int>, int> tree("file.dat", "file_leaves.dat", "file_delete.dat",
-                                                   "file_leaves_delete.dat");
+sjtu::bpt<sjtu::pair<sjtu::string, int>, int> tree("file.dat", "file_leaves.dat"/*, "file_delete.dat",
+                                                   "file_leaves_delete.dat"*/);
 const int min_ = -2147483648;
 const int max_ = 2147483647;
 

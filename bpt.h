@@ -71,13 +71,13 @@ namespace sjtu {
         //sjtu::map<Key, T> hs;
         static const int m = 74669;
         std::fstream file;
-        std::fstream file_delete;
+        //std::fstream file_delete;
         std::fstream file_leaves;
-        std::fstream file_delete_leaves;
+        //std::fstream file_delete_leaves;
         std::string file_name;
-        std::string file_delete_name;
+        //std::string file_delete_name;
         std::string file_leaves_name;
-        std::string file_delete_leaves_name;
+        //std::string file_delete_leaves_name;
         Compare cpy;
         sjtu::vector<long long> delete_;
         int delete_num = 0;
@@ -824,34 +824,34 @@ namespace sjtu {
         }
 
     public:
-        explicit bpt(std::string file_name_, std::string file_leaves_name_, std::string file_delete_name_,
-                     std::string file_delete_leaves_) {
+        explicit bpt(std::string file_name_, std::string file_leaves_name_/*, std::string file_delete_name_,
+                     std::string file_delete_leaves_*/) {
             file_name = file_name_;
             file_leaves_name = file_leaves_name_;
-            file_delete_name = file_delete_name_;
-            file_delete_leaves_name = file_delete_leaves_;
+            //file_delete_name = file_delete_name_;
+            //file_delete_leaves_name = file_delete_leaves_;
             file.open(file_name);
             file_leaves.open(file_leaves_name);
-            file_delete.open(file_delete_name);
-            file_delete_leaves.open(file_delete_leaves_name);
+            //file_delete.open(file_delete_name);
+            //file_delete_leaves.open(file_delete_leaves_name);
             if (!file) {
                 file.open(file_name, std::fstream::out);
-                file_delete.open(file_delete_name, std::fstream::out);
+                //file_delete.open(file_delete_name, std::fstream::out);
                 file_leaves.open(file_leaves_name, std::fstream::out);
-                file_delete_leaves.open(file_delete_leaves_name, std::fstream::out);
+                //file_delete_leaves.open(file_delete_leaves_name, std::fstream::out);
                 file.write(reinterpret_cast<char *>(&tmp), sizeof(node));
                 file.close();
-                int x = 0;
-                file_delete_leaves.write(reinterpret_cast<char *>(&x), sizeof(int));
-                file_delete.write(reinterpret_cast<char *>(&x), sizeof(int));
+                //int x = 0;
+                //file_delete_leaves.write(reinterpret_cast<char *>(&x), sizeof(int));
+                //file_delete.write(reinterpret_cast<char *>(&x), sizeof(int));
                 long long x_ = 0;
                 file_leaves.write(reinterpret_cast<char *>(&x_), sizeof(long long));
-                file_delete.close();
+                //file_delete.close();
                 file_leaves.close();
-                file_delete_leaves.close();
+                //file_delete_leaves.close();
                 return;
             }
-            file_delete.seekg(0);
+            /*file_delete.seekg(0);
             file_delete.read(reinterpret_cast<char *>(&delete_num), sizeof(int));
             for (int i = 1; i <= delete_num; i++) {
                 long long x;
@@ -865,15 +865,15 @@ namespace sjtu {
                 file_delete_leaves.read(reinterpret_cast<char *>(&x), sizeof(long long));
                 delete_leaves.push_back(x);
             }
-            file_delete.close();
+            file_delete.close();*/
             file.read(reinterpret_cast<char *>(&root), sizeof(node));
             file.close();
             file_leaves.close();
-            file_delete_leaves.close();
+            //file_delete_leaves.close();
         }
 
         ~bpt() {
-            file_delete.open(file_delete_name);
+            /*file_delete.open(file_delete_name);
             file_delete.seekp(0);
             file_delete.write(reinterpret_cast<char *>(&delete_num), sizeof(int));
             for (int i = 0; i < delete_.size(); i++) {
@@ -887,7 +887,7 @@ namespace sjtu {
             for (int i = 0; i < delete_leaves.size(); i++) {
                 file_delete_leaves.write(reinterpret_cast<char *>(&delete_leaves[i]), sizeof(long long));
             }
-            file_delete_leaves.close();
+            file_delete_leaves.close();*/
             //!
         }
 
