@@ -32,7 +32,7 @@ struct std::hash<sjtu::pair<sjtu::pair<size_t, int>, int>> {
     }
 };
 namespace sjtu {
-    template<class Key, class T/*, class Hash=std::hash<Key>*/, int M = 100, int N = 300, class Compare= std::less<Key> >
+    template<class Key, class T/*, class Hash=std::hash<Key>*/, int M = 62, int N = 7, class Compare= std::less<Key> >
     class bpt {
     private:
         typedef pair<Key, T> value_type;
@@ -1056,7 +1056,7 @@ namespace sjtu {
             file_leaves.seekg(now.leave_address);
             file_leaves.read(reinterpret_cast<char *>(&now_l), sizeof(node_leaves));
             for (int i = 0; i < now_l.length; i++)
-                if (!cpy(key, now_l.value[i]) && !cpy(now_l.value[i], key)) {
+                if (!cpy(key, now_l.value[i].first) && !cpy(now_l.value[i].first, key)) {
                     /*if (hs.size() == m) {
                         hs.erase(hs.begin());
                     }*/
