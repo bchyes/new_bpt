@@ -8,9 +8,11 @@ const int min_ = -2147483648;
 const int max_ = 2147483647;
 
 int main() {
+    /*freopen("1.in", "r", stdin);
+    freopen("1.ans", "w", stdout);*/
     int n;
     std::cin >> n;
-    for (int i = 1; i <= 20; i++) {
+    for (int i = 1; i <= n; i++) {
         sjtu::string s;
         std::cin >> s;
         if (s == sjtu::string("insert")) {
@@ -31,6 +33,7 @@ int main() {
                     }
                     printf("\n");
                 } else {
+                    //printf("(%d)", i);
                     printf("null\n");
                 }
             }
@@ -39,19 +42,22 @@ int main() {
             int x;
             std::cin >> s;
             std::cin >> x;
-            try { tree.erase(sjtu::pair<sjtu::string, int>(s, x)); }
+            try { tree.erase(sjtu::pair<sjtu::string, int>(s, x),i); }
                 //try { tree.erase(s); }
             catch (...) {}
         }
     }
-    for (int i = 21; i <= n; i++) {
+    /*for (int i = 4769; i <= n; i++) {
         sjtu::string s;
         std::cin >> s;
         if (s == sjtu::string("insert")) {
             int x;
             std::cin >> s;
             std::cin >> x;
-            try { tree.insert(sjtu::pair<sjtu::pair<sjtu::string, int>, int>(sjtu::pair<sjtu::string, int>(s, x), x)); }
+            try {
+                tree.insert(sjtu::pair<sjtu::pair<sjtu::string, int>, int>(sjtu::pair<sjtu::string, int>(s, x), x));
+                //if (tree.check()) std::cout << "(sbsbsb" << i << "sbsbsb)" << std::endl;
+            }
             catch (...) {}
         } else if (s == sjtu::string("find")) {
             std::cin >> s;
@@ -65,6 +71,7 @@ int main() {
                     }
                     printf("\n");
                 } else {
+                    //printf("(%d)", i);
                     printf("null\n");
                 }
             }
@@ -73,10 +80,13 @@ int main() {
             int x;
             std::cin >> s;
             std::cin >> x;
-            try { tree.erase(sjtu::pair<sjtu::string, int>(s, x)); }
+            try {
+                tree.erase((sjtu::pair<sjtu::string, int>(s, x)),i);
+                //if (tree.check()) std::cout << "(sbsbsb" << i << ")" << std::endl;
+            }
                 //try { tree.erase(s); }
-            catch (...) {}
+            catch (...) { *//*if (tree.check()) std::cout << "(sbsbsb````" << i << ")" << std::endl;*//* }
         }
-    }
+    }*/
 }
 
