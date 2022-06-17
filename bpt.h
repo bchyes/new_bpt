@@ -137,6 +137,7 @@ namespace sjtu {
             bool root_ = 1;//判断需不需要对根进行操作，用于下方第二个while，若根的儿子有分裂，则需要进行操作，初始设为1为了处理根的儿子是叶子节点的情况
             //node_back = new_tmp;
             node_back.father = new_tmp_l.father;//!
+            new_tmp.address = new_tmp_l.address;//!!!!!!!!
             while (node_back.father) {//如果新添加的节点new_tmp有父亲，则对他的父亲的索引进行修改。
                 root_ = 0;
                 file.seekg(node_back.father);
@@ -152,10 +153,10 @@ namespace sjtu {
                     node_back.son[j + 1] = node_back.son[j];
                 }
                 node_back.value[l] = v_up.first;
-                node_back.son[l + 1] = new_tmp_l.address;//!
+                node_back.son[l + 1] = new_tmp.address;//!
                 if (l + 1 == node_back.length) {
                     node_back.value[node_back.length - 1] = v_up.first;
-                    node_back.son[node_back.length] = new_tmp_l.address;//!
+                    node_back.son[node_back.length] = new_tmp.address;//!
                 }
                 node_back.length++;
                 file.seekp(node_back.address);
@@ -218,10 +219,10 @@ namespace sjtu {
                     node_back.son[j + 1] = node_back.son[j];//最后一个无效移动
                 }
                 node_back.value[l] = v_up.first;
-                node_back.son[l + 1] = new_tmp_l.address;//!
+                node_back.son[l + 1] = new_tmp.address;//!
                 if (l + 1 == node_back.length) {
                     node_back.value[node_back.length - 1] = v_up.first;
-                    node_back.son[node_back.length] = new_tmp_l.address;//!
+                    node_back.son[node_back.length] = new_tmp.address;//!
                 }
                 node_back.length++;
                 file.seekp(node_back.address);
